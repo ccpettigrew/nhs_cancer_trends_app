@@ -1,0 +1,61 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(reshape)
+library(tidyr)
+library(readr)
+library(ggplot2)
+library(bbplot)
+```
+
+
+```{r}
+borders_data <- read_csv("canc.csv") %>%
+  filter(HB == "S08000016")
+
+borders_data
+
+```
+
+```{r}
+cancer_year <- borders_data %>%
+  select("CancerSite","CrudeRate", "WASR", "Sex", "Year", "IncidencesAllAges") 
+
+cancer_year
+
+```
+
+
+```{r}
+cancer_year_wider <- cancer_year %>%
+  pivot_wider(id_cols = "Year",
+               names_from =  "Year",
+               values_from = "Year")
+```
+
+
+
+```{r}
+ggplot(data=cancer_year, aes(x=Year, y=IncidencesAllAges)) +
+  geom_bar()
+```
+
+
+
+
+```{r}
+    ggplot(cancer_year, aes(x=Year, y=IncidencesAllAges) +
+      geom_line() +
+      bbc_style() +
+      labs(title = "Conversions by Channel", x = "Channel", y = "Number Converted")
+```
+
+
+
+
+
